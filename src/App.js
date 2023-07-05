@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import RegisterPage from './components/RegisterForm';
+import LoginPage from './components/LoginForm';
+import UserInfoPage from './components/UserInfo';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+
+  const handleRegister = (registeredUser) => {
+    setUser(registeredUser);
+  };
+
+  const handleLogin = (loggedInUser) => {
+    setUser(loggedInUser);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!user ? (
+        <>
+          <RegisterPage onRegister={handleRegister} onLogin={() => handleLogin()} />
+          <LoginPage onLogin={handleLogin} onRegister={() => handleRegister()} />
+        </>
+      ) : (
+        <UserInfoPage user={user} 
+        // onUpdate={() => handleUpdate()}
+         onLogout={handleLogout} />
+      )}
     </div>
   );
-}
+};
 
 export default App;
